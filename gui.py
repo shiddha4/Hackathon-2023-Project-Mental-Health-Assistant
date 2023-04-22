@@ -5,7 +5,7 @@ from tkinter.ttk import *
 from tkinter import filedialog as fdialogue
 
 from encrypt import encrypt
-from decrypt import decrypt
+from decrypt import decrypt1
 from keygen import keygen
 from ttkthemes import ThemedTk
 
@@ -67,20 +67,61 @@ def displayCredits():
     Label(creditsWindow, text="Sudarshan Surendranathan").grid(column=1, row=4)
     Label(creditsWindow, text="shiddha4@gmail.com").grid(column=2, row=4)
 
+
+def newWindow():
+    genKey = Toplevel(root)
+    genKey.configure(bg="#414141")
+    genKey.title("Credits")
+
+    def closeCreditsWindow():
+        genKey.destroy()
+
+
+
+
+
 def encryptButtonClicked():
     filename = askopenfilename(initialdir="./", title="Select a File",
                                filetypes=(("Text files", "*.txt*"), ("all files", "*.*")))
+
+    #ai needs genrate
     key_file = askopenfilename(initialdir="keys/", title="Select a Key",
                                filetypes=(("Key Files", "*.key*"), ("All Files", "*.*")))
     encrypt(filename, key_file)
 
+import decrypt
+
+def decrypt3(filename,key,genkey):
+    key='C:/Users/Sudarshan_2/PycharmProjects/cybersercuity/keys/' + str(key) + '.key'
+    if (decrypt.decrypt1(filename, key)):
+        genkey.destroy()
+    else:
+        popup = Toplevel()
+        popup.geometry("750x250")
+        popup.title("Error")
+        popup.label()
 
 def decryptButtonClicked():
+
+
     filename = askopenfilename(initialdir="./", title="Select a File",
                                filetypes=(("Text files", "*.txt*"), ("all files", "*.*")))
-    key_file = askopenfilename(initialdir="keys/", title="Select a Key",
-                               filetypes=(("Key Files", "*.key*"), ("All Files", "*.*")))
-    decrypt(filename, key_file)
+
+    #form
+    #key_file = askopenfilename(initialdir="keys/", title="Select a Key",
+
+               # filetypes=(("Key Files", "*.key*"), ("All Files", "*.*")))
+    genKey = Toplevel(root)
+    genKey.configure(bg="#414141")
+    genKey.title("Generate Key")
+    passwordLabel = Label(genKey, text="Password").grid(row=1, column=0)
+    password = StringVar()
+    passwordEntry = Entry(genKey, textvariable=password, show='*').grid(row=1, column=1)
+
+    button = Button(genKey, text="Submit", command=lambda: decrypt3(filename, password.get(), genKey)).grid(row=2, column=0)
+
+
+
 
 
 def keygenButtonClicked():
